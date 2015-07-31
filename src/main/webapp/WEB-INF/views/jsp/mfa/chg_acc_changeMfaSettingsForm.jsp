@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +36,7 @@
 
 #mfaSetupView .mfaSetupViewContainer .mfaSetupmethodContainer .mfaSetupmethodContainerleft
 	{
-	width: 530px;
+	width: 430px;
 	box-sizing: border-box;
 	display: inline-block;
 	border-right: 1px solid black;
@@ -72,6 +73,7 @@
 	padding-right: 15px;
 }
 
+
 #mfaSetupView .mfaSetupViewContainer .mfaSetupmethodContainer .mfaSetupmethodContainerleft .mfaSetupMethods .mfaSetupMethod .mfaSetupMethodBtn .btnMfaSetupMethods
 	{
 	height: 50px;
@@ -87,6 +89,32 @@
 	{
 	border: 1px solid black;
 }
+
+
+
+#mfaSetupView .mfaSetupViewContainer .mfaEnterCodeContainer .mfaEnterCodeContainerHeaderForm .mfaSetupMethods .mfaSetupMethod .mfaSetupMethodBtn .btnMfaSetupMethods
+	{
+	height: 50px;
+	line-height: 50px;
+	padding: 0px 12px;
+	width: 100%;
+	box-sizing: border-box;
+	margin-top: 5px;
+	border: 1px solid lightgray;
+}
+
+#mfaSetupView .mfaSetupViewContainer .mfaEnterCodeContainer .mfaEnterCodeContainerHeaderForm .mfaSetupMethods .mfaSetupMethod .mfaSetupMethodBtn .btnMfaSetupMethods:hover
+	{
+	border: 1px solid black;
+}
+
+
+
+
+
+
+
+
 
 #mfaSetupView .mfaSetupViewContainer .mfaSetupmethodContainer .mfaSetupmethodContainerleft .mfaSetupMethods .mfaSetupMethod .mfaSetupMethodText
 	{
@@ -191,80 +219,64 @@
 	<div id="mfaSetupView">
 		<div class="mfaSetupViewContainer">
 			<div class="mfaSetupViewContainerHeader">
-				<h2 id="mfaSetupViewContainerHeaderText">Setup Muti-factor Authentication</h2>
+				<h2 id="mfaSetupViewContainerHeaderText">Muti-factor Authentication</h2>
 			</div>
+			
+			<spring:url value="/delete" var="userActionUrl" />
+			<form id="mfa_setup_form" method="POST" action="${userActionUrl}" htmlEscape="true">
 			<div class="mfaSetupmethodContainer">
 				<div class="mfaSetupmethodContainerleft">
 					<div class="mfaSetupmethodContainerHeader">
-						<h3 id="mfaSetupmethodContainerHeaderText">Choose Multi-Factor Authentication Method</h3>
+						<h3 id="mfaSetupmethodContainerHeaderText">This Device</h3>
 					</div>
 					<div class="mfaSetupMethods">
 						<div class="mfaSetupMethod">
 							<div class="mfaSetupMethodBtn">
-								<a class="btn btnMfaSetupMethods">Email</a>
-							</div>
-							<div class="mfaSetupMethodText">Send an email to Jxxxxxx@xxxx.com</div>
-						</div>
-						<div class="mfaSetupMethod">
-							<div class="mfaSetupMethodBtn">
-								<a class="btn btnMfaSetupMethods">Google Authenticator</a>
-							</div>
-							<div class="mfaSetupMethodText">Use my App to get a new
-								code</div>
-						</div>
+								<!-- <a class="btn btnMfaSetupMethods">Forget this device</a> -->
+								<input type="hidden" id="deviceId" name="thisDeviceId"
+									value="${thisDevice}" />
 
-						<div class="mfaSetupMethod">
-							<div class="mfaSetupMethodBtn">
-								<a class="btn btnMfaSetupMethods">SMS (Text Message)</a>
+								<input type="submit" id="forgetThisDevice" value="Forget this device"
+									class="btn btnMfaSetupMethods" />
 							</div>
-							<div class="mfaSetupMethodText">Send a text message to
-								(xxx) xxx-9566</div>
-						</div>
-
-						<div class="mfaSetupMethod">
-							<div class="mfaSetupMethodBtn">
-								<a class="btn btnMfaSetupMethods">Call Me</a>
-							</div>
-							<div class="mfaSetupMethodText">Call (xxx) xxx-9566</div>
+							<div class="mfaSetupMethodText">You chose to remember this device in 2015-07-03. </div>
 						</div>
 					</div>
 				</div>
 				<div class="mfaSetupmethodContainerRight">
 					<div class="mfaEnterCodeContainer">
 						<div class="mfaEnterCodeContainerHeader">
-							<h3 id="mfaEnterCodeContainerHeaderText">Enter Multi-Factor
-								Code</h3>
+							<h3 id="mfaEnterCodeContainerHeaderText">Other Devices</h3>
 						</div>
 						<div class="mfaEnterCodeContainerHeaderForm">
-							<form method="post">
-								<div class="mfaEnterCodeInputDiv">
-									<input type="text" width="150" />
+							<div class="mfaSetupMethods">
+								<div class="mfaSetupMethod">
+									<div class="mfaSetupMethodBtn">
+										<input type="button" id="forgetAllDevice" value="Forget all the device"  class="btn btnMfaSetupMethods" />
+									</div>
+									<div class="mfaSetupMethodText">If you have previously chosen not to be asked for verification codes on other computers, you can reset them here.</div>
 								</div>
-
-								<div class="mfaEnterCodeInputHintDiv">
-									<small>Enter the 6-digit code from your email, Google
-										Authenticator, SMS, or phone call below </small>
-								</div>
-
-								<div class="mfaEnterCodeCheckboxDiv">
-									<input type="checkbox" name="loginIdCookie.include" value="Y"
-										tabindex="3" /> <small>This is my personal computer
-										(remember this device)</small>
-								</div>
-
-								<div class="mfaEnterCodeSubmitDiv"><a class="btn btn-success btnCodeSubmit">Submit and Login Again</a></div>
-							</form>
+							</div>
 						</div>
 					</div>
 				</div>
-
 			</div>
+			</form>
+			
 		</div>
 	</div>
 </div>
 
+
 	<c:if test="${not empty device}">
-		<Strong>${device.deviceId }</Strong>
+   <spring:url value="/delete" var="userActionUrl" /> 
+	<form:form class="form-horizontal" method="post" modelAttribute="userForm" action="${userActionUrl}">
+
+		<c:forEach var="dId" items="${device}">
+		 <a href="<spring:url value='/delete/${dId}'/>" class="btn btnMfaSetupMethods">	<c:out value="${dId}"/> </a>
+		</c:forEach>
+	</form:form>
+		
 	</c:if>
 
 
@@ -278,6 +290,29 @@
 	</c:if>
 
 hello!
+<form action="<c:url value="/create"/>" method="post"> 
+    <fieldset> 
+        <legend>Login</legend> 
+        <table> 
+        <tr> 
+            <td>Username</td> 
+            <td> 
+                <input type="text" id="username" name="username"  
+                        placeholder="Usename"/></td> 
+        </tr> 
+        <tr> 
+            <td>Password</td> 
+            <td> 
+                <input type="password" id="password" name="password" 
+                       placeholder="Password"/></td> 
+        </tr> 
+        <tr><td colspan="2" align="center"> 
+            <button id="login">Login</button> 
+        </td></tr> 
+        </table> 
+    </fieldset> 
+</form> 
+
 
 <div id="thin-right"></div>
 <jsp:include page="../fragments/footer.jsp" />

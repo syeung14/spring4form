@@ -29,7 +29,11 @@ public class MfaLoginDeviceRepository {
 				}, loginId);
 		return list;
 	}
-	
+	public void deleteDevice(String loginId, String deviceId) { 
+		folioJdbcTemplate.update("delete from ftc_user_device where loginid =? and deviceid =?" , 
+				new Object[]{loginId, deviceId});
+		
+	}
 	public boolean createDevice(String loginId, String deviceId) {
 		folioJdbcTemplate.update("insert into ftc_user_device (loginid, deviceid,lastverificationts,nextverificationts,ispersonal,active) values (?,?,?,?,?,?) " , 
 				new Object[]{loginId, deviceId,new Date(), new Date(), "N","Y"});

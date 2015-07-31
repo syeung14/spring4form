@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -263,8 +264,16 @@
 	</div>
 </div>
 
+
 	<c:if test="${not empty device}">
-		<Strong>${device.deviceId }</Strong>
+   <spring:url value="/delete" var="userActionUrl" /> 
+	<form:form class="form-horizontal" method="post" modelAttribute="userForm" action="${userActionUrl}">
+
+		<c:forEach var="dId" items="${device}">
+		 <a href="<spring:url value='/delete/${dId}'/>" class="btn btnMfaSetupMethods">	<c:out value="${dId}"/> </a>
+		</c:forEach>
+	</form:form>
+		
 	</c:if>
 
 
@@ -278,6 +287,29 @@
 	</c:if>
 
 hello!
+<form action="<c:url value="/create"/>" method="post"> 
+    <fieldset> 
+        <legend>Login</legend> 
+        <table> 
+        <tr> 
+            <td>Username</td> 
+            <td> 
+                <input type="text" id="username" name="username"  
+                        placeholder="Usename"/></td> 
+        </tr> 
+        <tr> 
+            <td>Password</td> 
+            <td> 
+                <input type="password" id="password" name="password" 
+                       placeholder="Password"/></td> 
+        </tr> 
+        <tr><td colspan="2" align="center"> 
+            <button id="login">Login</button> 
+        </td></tr> 
+        </table> 
+    </fieldset> 
+</form> 
+
 
 <div id="thin-right"></div>
 <jsp:include page="../fragments/footer.jsp" />

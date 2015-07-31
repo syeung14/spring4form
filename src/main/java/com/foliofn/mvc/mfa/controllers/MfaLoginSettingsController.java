@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,10 +49,10 @@ public class MfaLoginSettingsController {
 		
 		MfaDeviceInfo dInfo =new MfaDeviceInfo.Builder(UUID.randomUUID().toString(), "lcarrier").build();
 		
-		model.addAttribute("device", dInfo);
+		model.addAttribute("device", devices);
+		model.addAttribute("cmdData", dInfo);
 		
 		return "mfa/chg_acc_changeMfaSettingsForm";
-		
 	}
 	
 	@RequestMapping(value = "/mfamodel2", method = RequestMethod.GET)
@@ -59,14 +60,23 @@ public class MfaLoginSettingsController {
 		return new ModelAndView("/servlets/ProcessAction/mfa/chg_acc_changeMfaSettingsForm");
 	}
 	
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public void createDeviec() {
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	public String createDevice() {
 		
 		mfaLoginRepo.createDevice("lcarrier", UUID.randomUUID().toString() );
 		
 		logger.debug("-----created--");
-		
+		return "redirect:/mfamodel";
 	}
 	
-    
+	@RequestMapping(value = "/delete/{deviceId}", method = RequestMethod.GET)
+	public String deleteDevice(@PathVariable("deviceId") String deviceId, 
+							Model model			) {
+		
+		logger.debug("showUpdateUserForm() : {}" + deviceId);
+		
+		mfaLoginRepo.deleteDevice("", deviceId);
+		
+		return "redirect:/mfamodel";
+	}
 }

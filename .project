@@ -45,4 +45,11 @@
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src_common</name>
+			<type>2</type>
+			<location>C:/works/eclipse-jee-luna-SR2-win32-x86_64/wstest/Common/src</location>
+		</link>
+	</linkedResources>
 </projectDescription>

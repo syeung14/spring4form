@@ -18,20 +18,19 @@ public class MfaLoginDeviceRepository {
 	private JdbcTemplate folioJdbcTemplate;
 
 	public List<String> findAllDeviceByLoginId(String loginId) {
-		List<String> list = folioJdbcTemplate.query("select deviceid from ftc_user_device where loginid = ?",
+		List<String> list = folioJdbcTemplate.query("select deviceid from ftc_user_device where loginid = ? and active = ?",
 				new RowMapper<String>() {
-
 					@Override
 					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 						return rs.getString("deviceid").trim();
 					}
-
-				}, loginId);
+				}, loginId, "Y");
 		return list;
 	}
-	public void deleteDevice(String loginId, String deviceId) { 
-		folioJdbcTemplate.update("delete from ftc_user_device where loginid =? and deviceid =?" , 
-				new Object[]{loginId, deviceId});
+	
+	static String deactivate =  "update ftc_user_device set active= ? where loginid =? ";
+	public void deactivateDevice(String loginId) {
+		folioJdbcTemplate.update(deactivate, new Object[]{"N",loginId});
 		
 	}
 	public boolean createDevice(String loginId, String deviceId) {
@@ -40,5 +39,28 @@ public class MfaLoginDeviceRepository {
 		
 		return true;
 	}
+	
+	
+	public boolean isCurrentDeviceActive(String deviceId, String userId) {
+		int count  = folioJdbcTemplate.queryForInt("select count(1) " +
+								" from ftc_user_device " + 
+								" where loginid = ? " + 
+								" and deviceid= ? " + 
+								" and active = 'Y' ", new Object[] {userId, deviceId});
+		
+		return count > 0;
+	}
+
+	public boolean aresOtherDeviceActive(String deviceId, String userId) {
+		int count  = folioJdbcTemplate.queryForInt("select count(1) " + 
+					" from ftc_user_device " +
+					" where loginid = ? " + 
+					" and active = 'Y' " +
+					" and deviceid != ? ", new Object[] {userId, deviceId});
+		
+		return count > 0;
+	}
+    
+
 	
 }

@@ -15,6 +15,10 @@
 		<servlet-name>spring-web</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>spring-web</servlet-name>
+		<url-pattern>/main/*</url-pattern>
+	</servlet-mapping>
 
 	<error-page>
 		<error-code>500</error-code>

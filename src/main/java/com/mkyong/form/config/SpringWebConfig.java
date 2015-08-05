@@ -13,7 +13,8 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @Configuration
 @ComponentScan({ "com.mkyong.form.web", "com.mkyong.form.service", "com.mkyong.form.dao",
-		"com.mkyong.form.exception", "com.mkyong.form.validator", "com.foliofn.mvc.mfa.controllers", "com.foliofn.mvc.mfa.jdbc" })
+		"com.mkyong.form.exception", "com.mkyong.form.validator", "com.foliofn.mvc.mfa.controllers", "com.foliofn.mvc.mfa.jdbc"
+		,"com.springinpractice.ch03.web"})
 public class SpringWebConfig extends WebMvcConfigurerAdapter {
 
 	@Override

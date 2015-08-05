@@ -4,7 +4,22 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+
 <!DOCTYPE html>
+
+<%-- 
+<%
+Cookie cookies[] = request.getCookies();
+if (cookies != null) {
+	for (int i = 0; i < cookies.length; i++) {
+		Cookie cookie = cookies[i];
+		System.out.println("in 'JSP' cookie: " + cookie.getName() + ": " + cookie.getValue() + " : " + cookie.getDomain() 
+			+ " : " + cookie.getPath());
+	}
+}
+
+%> --%>
+
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -107,7 +122,6 @@
 	{
 	border: 1px solid black;
 }
-
 
 
 
@@ -222,8 +236,6 @@
 				<h2 id="mfaSetupViewContainerHeaderText">Muti-factor Authentication</h2>
 			</div>
 			
-			<spring:url value="/delete" var="userActionUrl" />
-			<form id="mfa_setup_form" method="POST" action="${userActionUrl}" htmlEscape="true">
 			<div class="mfaSetupmethodContainer">
 				<div class="mfaSetupmethodContainerleft">
 					<div class="mfaSetupmethodContainerHeader">
@@ -233,11 +245,11 @@
 						<div class="mfaSetupMethod">
 							<div class="mfaSetupMethodBtn">
 								<!-- <a class="btn btnMfaSetupMethods">Forget this device</a> -->
-								<input type="hidden" id="deviceId" name="thisDeviceId"
-									value="${thisDevice}" />
-
-								<input type="submit" id="forgetThisDevice" value="Forget this device"
-									class="btn btnMfaSetupMethods" />
+									<spring:url value="/forgetDevice" var="userActionUrl" />
+									<form id="mfa_setup_form" method="POST" action="${userActionUrl}" htmlEscape="true">
+										<input type="hidden" value="forgetThisOne" name="forgetType"/>	
+										<input type="submit" id="forgetThisDevice" value="Forget this device" class="btn btnMfaSetupMethods" />
+									</form>
 							</div>
 							<div class="mfaSetupMethodText">You chose to remember this device in 2015-07-03. </div>
 						</div>
@@ -252,20 +264,29 @@
 							<div class="mfaSetupMethods">
 								<div class="mfaSetupMethod">
 									<div class="mfaSetupMethodBtn">
-										<input type="button" id="forgetAllDevice" value="Forget all the device"  class="btn btnMfaSetupMethods" />
+									<spring:url value="/forgetDevice" var="userActionUrl" />
+									<form id="mfa_setup_form" method="POST" action="${userActionUrl}" htmlEscape="true">
+										<input type="hidden" value="forgetAll" name="forgetType"/>	
+										<input type="submit"  id="forgetAllDevice" value="Forget all the device"  class="btn btnMfaSetupMethods" 
+											<c:if test="${empty otherDevices}">
+												disabled
+											</c:if>/>
+									</form>
 									</div>
-									<div class="mfaSetupMethodText">If you have previously chosen not to be asked for verification codes on other computers, you can reset them here.</div>
+									<div class="mfaSetupMethodText">If you have previously chosen not to be asked for verification codes on other computers, you can forget(reset) them here.</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			</form>
 			
 		</div>
 	</div>
 </div>
+
+
+<a href="https://localhost:8443/sip/main/roster/member.do" > go sip site </a>
 
 
 	<c:if test="${not empty device}">
@@ -289,29 +310,26 @@
 		</div>
 	</c:if>
 
-hello!
-<form action="<c:url value="/create"/>" method="post"> 
-    <fieldset> 
-        <legend>Login</legend> 
-        <table> 
-        <tr> 
-            <td>Username</td> 
-            <td> 
-                <input type="text" id="username" name="username"  
-                        placeholder="Usename"/></td> 
-        </tr> 
-        <tr> 
-            <td>Password</td> 
-            <td> 
-                <input type="password" id="password" name="password" 
-                       placeholder="Password"/></td> 
-        </tr> 
-        <tr><td colspan="2" align="center"> 
-            <button id="login">Login</button> 
-        </td></tr> 
-        </table> 
-    </fieldset> 
-</form> 
+<%
+   Cookie cookie = null;
+   Cookie[] cookies = null;
+   // Get an array of Cookies associated with this domain
+   cookies = request.getCookies();
+   if( cookies != null ){
+      out.println("<h2> Found Cookies Name and Value</h2>");
+      for (int i = 0; i < cookies.length; i++){
+         cookie = cookies[i];
+         out.print("Name : " + cookie.getName( ) + ",  ");
+         out.print("Path : " + cookie.getPath( ) + ",  ");
+         out.print("Domain : " + cookie.getDomain( ) + ",  ");
+         out.print("Value: " + cookie.getValue( )+" <br/>");
+      }
+  }else{
+      out.println("<h2>No cookies founds</h2>");
+  }
+%>
+
+
 
 
 <div id="thin-right"></div>

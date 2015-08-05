@@ -15,6 +15,12 @@
 		<appender-ref ref="STDOUT" />
 	</logger>
 	
+	<logger name="com.springinpractice" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="com.foliofn" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+	</logger>
 	<logger name="com.mkyong.form" level="debug" additivity="false">
 		<appender-ref ref="STDOUT" />
 	</logger>

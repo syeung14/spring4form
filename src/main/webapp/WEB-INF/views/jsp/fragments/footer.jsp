@@ -2,7 +2,7 @@
 <div class="container">
 	<hr>
 	<footer>
-		<p>&copy; Mkyong.com 2015</p>
+		<p>&copy; mssyeung.com 2015</p>
 	</footer>
 </div>
 

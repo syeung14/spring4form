@@ -1,6 +1,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans     
         http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -12,7 +13,18 @@
 	<!-- Scan the JavaConfig -->
 	<context:component-scan base-package="com.mkyong.form.config" />
 
-	<bean id="mfaLoginDeviceRepository" class="com.foliofn.entities.jdbc.repository.MfaLoginDeviceRepository"/>
+	<bean id="mfaLoginDeviceRepository" class="com.foliofn.entities.jdbc.repository.MfaLoginDeviceRepository">
+		<property name="staticFolioJdbcTemplate" ref="folio1.jdbcTemplate" />
+	</bean>
+
+	<!-- <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticFolioJdbcTemplate" value="com.foliofn.entities.jdbc.repository.MfaLoginDeviceRepository" />
+		<property name="arguments">
+			<list>
+				<ref bean="folio1.jdbcTemplate" />
+			</list>
+		</property>
+	</bean> -->
 	
 	<bean id="folio1.jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<qualifier value="folio1" />
@@ -26,7 +38,41 @@
 		</property>
 	</bean>
 	 
+	<bean id="verificationUserRepository" class="com.foliofn.verification.repositories.ldap.LdapVerificationUserRepository">
+    	<property name="ldapTemplate" ref="verificationUserRepositoryLdapTemplate" />
+    	<property name="policyRepository" ref="verificationPolicyRepository" />
+    	<property name="userDistinguishedNameFormat" value="uid=%s,ou=users"/>
+    </bean>
+    
+    <bean id="verificationPolicyRepository" class="com.foliofn.verification.repositories.ldap.LdapVerificationPolicyRepository">
+    	<property name="ldapTemplate" ref="verificationUserRepositoryLdapTemplate" />
+    	<property name="policyDistinguishedNameFormat" value="cn=%s,ou=system" />
+    </bean>
+        
+    <bean id="verificationUserRepositoryLdapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="pooledLdapContextSource" />
+	</bean>
+    
+	<bean id="pooledLdapContextSource" class="org.springframework.ldap.pool.factory.PoolingContextSource">
+      <property name="contextSource" ref="verificationUserRepositoryContextSource" />
+   </bean>
+   
+    <bean id="verificationUserRepositoryContextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://devldap1.foliofn.com:389" />
+		<property name="base" value="dc=verification,dc=foliofn,dc=com" />
+		<property name="userDn" value="cn=admin,cn=Administrators,cn=dscc" />
+		<property name="password" value="testpass" />
+		<property name="pooled" value="false" />
+		<property name="dirObjectFactory" value="org.springframework.ldap.core.support.DefaultDirObjectFactory" />
+	</bean>
 	
+<!--     <util:map id="verificationPolicyMap" value-type="java.lang.String" key-type="java.lang.String">
+        <entry key="I" value="FolioInstitutionalVerificationPolicy" />
+        <entry key="N" value="FolioClientVerificationPolicy" />
+        <entry key="R" value="FolioInvestingVerificationPolicy" />
+    </util:map>	 -->
+	
+
 <!-- 	<bean id="folio1.jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
 		<qualifier value="folio1"/>
 		<property name="dataSource" >

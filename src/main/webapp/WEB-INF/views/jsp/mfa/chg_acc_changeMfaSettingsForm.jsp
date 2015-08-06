@@ -285,6 +285,8 @@ if (cookies != null) {
 	</div>
 </div>
 
+<br>watch here : <br>
+<p>Not loaded yet.</p>
 
 <a href="https://localhost:8443/sip/main/roster/member.do" > go sip site </a>
 
@@ -334,5 +336,34 @@ if (cookies != null) {
 
 <div id="thin-right"></div>
 <jsp:include page="../fragments/footer.jsp" />
+
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  
+<script>
+	function removeDeviceCallback(data) {
+		if(data.result){
+			$("#forgetThisDevice").attr("disabled", "enabled");
+		}
+	}		
+
+	$(document).ready(function() {
+		$("p").text("The DOM is now loaded and can be manipulated.");
+		
+		var _url = "https://verification.local.folioidentity.com:7481/verification/mfa/deviceManager";
+		$.ajax( {
+	        type: "GET",
+	        url: _url,
+	        data :{
+	           whichDeivce : "isCurrentActive"
+	        },
+	        dataType:"JSONP",
+	        xhrFields: {
+	            withCredentials: true
+	        }
+		});
+		
+	});
+</script>
+  
 </body>
 </html>

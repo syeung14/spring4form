@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.foliofn.entities.jdbc.repository.MfaLoginDeviceRepository;
-import com.foliofn.mvc.mfa.model.DeviceFormModel;
 import com.foliofn.mvc.mfa.model.MfaDeviceInfo;
+import com.foliofn.verification.entities.VerificationUser;
+import com.foliofn.verification.repositories.VerificationUserRepository;
 import com.mssyeung.CookieHelper;
 
 
@@ -29,13 +30,18 @@ public class MfaLoginSettingsController {
 	@Autowired
 	MfaLoginDeviceRepository mfaLoginRepo;
 	
+	@Autowired
+	private VerificationUserRepository userRepository;
+	
 	
 	@RequestMapping(value ="/db", method= RequestMethod.GET) 
+	@SuppressWarnings("unused")
 	public String dbTest() {
 		
 		boolean rest = mfaLoginRepo.isCurrentDeviceActive("874abf8d-ab39-47c6-8ca4-d1da07413ea7", "lcarrier");
 		rest = mfaLoginRepo.aresOtherDeviceActive("874abf8d-ab39-47c6-8ca4-d1da07413ea7", "lcarrier");
 		
+		VerificationUser vUser = userRepository.findByUsername("lcarrier");
 		
 		return "redirect:/mfasettings";
 	}

@@ -16,7 +16,16 @@ public class MfaLoginDeviceRepository {
 	@Autowired
 	@Qualifier("folio1")
 	private JdbcTemplate folioJdbcTemplate;
-
+	
+	private static JdbcTemplate staticFolioJdbcTemplate;
+	
+	public JdbcTemplate getStaticFolioJdbcTemplate() {
+		return staticFolioJdbcTemplate;
+	}
+	public void setStaticFolioJdbcTemplate(JdbcTemplate staticFolioJdbcTemplate) {
+		MfaLoginDeviceRepository.staticFolioJdbcTemplate = staticFolioJdbcTemplate;
+	}
+	
 	public List<String> findAllDeviceByLoginId(String loginId) {
 		List<String> list = folioJdbcTemplate.query("select deviceid from ftc_user_device where loginid = ? and active = ?",
 				new RowMapper<String>() {

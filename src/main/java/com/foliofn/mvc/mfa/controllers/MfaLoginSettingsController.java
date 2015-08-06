@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.foliofn.entities.jdbc.repository.MfaLoginDeviceRepository;
-import com.foliofn.mvc.mfa.model.DeviceFormModel;
 import com.foliofn.mvc.mfa.model.MfaDeviceInfo;
 import com.mssyeung.CookieHelper;
 

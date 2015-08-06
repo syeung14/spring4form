@@ -54,7 +54,7 @@ public final class MemberController {
 		model.addAttribute(members);
 		return "roster/list";
 	}
-	
+	//http://localhost:8080/spring-mvc-form/member.do?id=0
 	@RequestMapping(value = "/member.do", method = RequestMethod.GET)
 	public String member(@RequestParam("id") Integer id, Model model) {
 		model.addAttribute(members.get(id));

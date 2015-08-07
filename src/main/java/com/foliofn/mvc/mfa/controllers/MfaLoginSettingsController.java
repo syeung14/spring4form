@@ -19,6 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.foliofn.entities.jdbc.repository.MfaLoginDeviceRepository;
 import com.foliofn.mvc.mfa.model.MfaDeviceInfo;
 import com.foliofn.verification.entities.VerificationUser;
+import com.foliofn.verification.mfa.domain.MfaUserInfo;
+import com.foliofn.verification.mfa.domain.UserDeviceInfo;
 import com.foliofn.verification.repositories.VerificationUserRepository;
 import com.mssyeung.CookieHelper;
 
@@ -45,6 +47,32 @@ public class MfaLoginSettingsController {
 		
 		return "redirect:/mfasettings";
 	}
+	
+	@RequestMapping(value ="/dbGetCookie", method= RequestMethod.GET) 
+	@SuppressWarnings("unused")
+	public String dbGetCookie() {
+		String deviceId = "7f0bcdd5-e821-4d9c-b83f-808784b45a1a";
+				
+		UserDeviceInfo uInfo = mfaLoginRepo.getUserLatestCookie("lcarrier", deviceId);
+		
+		
+		return "redirect:/index";
+	}
+	
+	@RequestMapping(value ="/dbGetUser", method= RequestMethod.GET) 
+	@SuppressWarnings("unused")
+	public String dbGetUser() {
+		String deviceId = "7f0bcdd5-e821-4d9c-b83f-808784b45a1a";
+		
+		MfaUserInfo uInfo = mfaLoginRepo.getUserInfo("lcarrier");
+		
+		
+		return "redirect:/index";
+	}
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/mfasettings", method = RequestMethod.GET)
 	public ModelAndView displayMfaSettings(Model model) {
@@ -126,11 +154,13 @@ public class MfaLoginSettingsController {
 	}
 
 	
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String createDevice(HttpServletResponse response) {
 		
 		
 		String uuid = UUID.randomUUID().toString();
+		
+		uuid = "2ffd8361-edc6-4abd-ab49-d6bc79695af4";
 		mfaLoginRepo.createDevice("lcarrier", uuid );
 
 		

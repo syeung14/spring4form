@@ -71,9 +71,6 @@ public class MfaLoginSettingsController {
 	}
 	
 	
-	
-	
-	
 	@RequestMapping(value = "/mfasettings", method = RequestMethod.GET)
 	public ModelAndView displayMfaSettings(Model model) {
 		logger.debug("display mfa settings ()");

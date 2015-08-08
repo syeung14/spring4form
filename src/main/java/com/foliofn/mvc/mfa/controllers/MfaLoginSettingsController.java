@@ -136,7 +136,8 @@ public class MfaLoginSettingsController {
 		logger.debug("-----created--");
 		return "redirect:https://localhost:8443/sip/main/roster/list.do";
 	}
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/create", method = {RequestMethod.POST, RequestMethod.GET})
 	public String createDevice(HttpServletResponse response) {
 		
 		String uuid = UUID.randomUUID().toString();

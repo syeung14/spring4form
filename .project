@@ -47,6 +47,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>src_comm</name>
+			<type>2</type>
+			<location>E:/java_stuff/sts-bundle/sts-3.7.0.RELEASE/ws_01/common/src</location>
+		</link>
+		<link>
 			<name>src_common</name>
 			<type>2</type>
 			<location>E:/java_stuff/sts-bundle/sts-3.7.0.RELEASE/ws_01/common/src</location>

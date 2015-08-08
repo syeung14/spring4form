@@ -126,9 +126,18 @@ public class MfaLoginSettingsController {
 	}
 
 	
+	@RequestMapping(value = "/create2", method = RequestMethod.POST)
+	public String createDevice2(HttpServletResponse response) {
+		
+		String uuid = UUID.randomUUID().toString();
+		mfaLoginRepo.createDevice("lcarrier", uuid );
+		
+		
+		logger.debug("-----created--");
+		return "redirect:https://localhost:8443/sip/main/roster/list.do";
+	}
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public String createDevice(HttpServletResponse response) {
-		
 		
 		String uuid = UUID.randomUUID().toString();
 		mfaLoginRepo.createDevice("lcarrier", uuid );

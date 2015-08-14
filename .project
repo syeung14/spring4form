@@ -49,7 +49,7 @@
 		<link>
 			<name>src_com</name>
 			<type>2</type>
-			<location>C:/works/eclipse-jee-luna-SR2-win32-x86_64/wstest/Common/src</location>
+			<location>E:/java_stuff/sts-bundle/sts-3.7.0.RELEASE/ws_01/common/src</location>
 		</link>
 		<link>
 			<name>src_common</name>

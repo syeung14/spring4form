@@ -1,5 +1,5 @@
 
-alert("----");
+console.log("heheheeheheheh");
 /*for (var i = 0; i < 100; i++) {
 	
 	var request = new XMLHttpRequest();

@@ -8,14 +8,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<spring:url value="/resources/jstest/script.js" var="testScript" />
+<script src="${testScript}"></script>
+
 
 </head>
 <body>
 -------------
 
-
-<spring:url value="/resources/jstest/script.js" var="testScript" />
-<script src="${testScript}"></script>
 
 <spring:url value="/location1.js" var="otherLoc" />
 <script src="${otherLoc}"></script>
